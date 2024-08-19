@@ -1,8 +1,18 @@
-import { OpenAPIRoute, OpenAPIRouteContext } from "chanfana";
+import { OpenAPIRoute } from "chanfana";
 import { z } from "zod";
+import { hashPassword } from '../authUtils';
+
+interface RouteContext {
+    env: {
+        DB: D1Database;
+    };
+    request: {
+        body: any;
+    };
+}
 
 export class CreateAccount extends OpenAPIRoute {
-    
+
     schema = {
         tags: ["account"],
         summary: "Create a new account",
@@ -29,26 +39,32 @@ export class CreateAccount extends OpenAPIRoute {
         },
         responses: {
             "200": {
-                description: "Account creation response",
+                description: "Account creation successful",
                 schema: {
                     success: z.boolean(),
                     result: z.string(),
                 }
             },
-            "500": {
-                description: "Internal Server Error",
+            "400": {
+                description: "Account creation error",
                 schema: {
                     success: z.boolean(),
-                    result: z.string(),
+                    error: z.string(),
+                }
+            },
+            "500": {
+                description: "Internal server error",
+                schema: {
+                    success: z.boolean(),
+                    error: z.string(),
                 },
             },
         },
     };
 
-    async handle(c: OpenAPIRouteContext) {
+    async handle(c: RouteContext) {
         const db = c.env.DB as D1Database;
 		const reqBody = await this.getValidatedData<typeof this.schema>();
-		const { user_id, bundle_name, bundle_desc, category_id, bundle_size, image_id, items } = reqBody.body;
         const {
             username,
             email,
@@ -72,13 +88,13 @@ export class CreateAccount extends OpenAPIRoute {
         const checkDuplicateUsername = await db.prepare(checkQueryUsername).bind(username).first();
 
         if (checkDuplicateUsername) {
-            return {
-                status: 400,
-                body: {
+            return new Response(
+                JSON.stringify({
                     success: false,
-                    result: "Username already exists",
-                },
-            };
+                    error: "Username already exists",
+                }),
+                { status: 400 }
+            );
         }
         
         // Check for existing email
@@ -90,14 +106,17 @@ export class CreateAccount extends OpenAPIRoute {
         const checkDuplicateEmail = await db.prepare(checkQueryEmail).bind(email).first();
 
         if (checkDuplicateEmail) {
-            return {
-                status: 400,
-                body: {
+            return new Response(
+                JSON.stringify({
                     success: false,
-                    result: "Email already exists",
-                },
-            };
+                    error: "Email already exists",
+                }),
+                { status: 400 }
+            );
         }
+
+        // Hash the password before storing it
+        const hashedPassword = await hashPassword(password);
 
         // Build the query dynamically based on provided fields
         const fields: string[] = [];
@@ -105,7 +124,7 @@ export class CreateAccount extends OpenAPIRoute {
         const placeholders: string[] = [];
 
         fields.push("username", "email", "password");
-        values.push(username, email, password);
+        values.push(username, email, hashedPassword); // Use hashed password
         placeholders.push("?", "?", "?");
         if (admin !== undefined) {
             fields.push("admin");
@@ -148,7 +167,6 @@ export class CreateAccount extends OpenAPIRoute {
             placeholders.push("?");
         }
 
-
         // Construct the SQL query
         const query = `
             INSERT INTO users (${fields.join(", ")})
@@ -158,21 +176,21 @@ export class CreateAccount extends OpenAPIRoute {
         try {
             await db.prepare(query).bind(...values).run();
 
-            return {
-                status: 200,
-                body: {
+            return new Response(
+                JSON.stringify({
                     success: true,
                     result: "Account created successfully",
-                },
-            };
+                }),
+                { status: 200 }
+            );
         } catch (error) {
-            return {
-                status: 500,
-                body: {
+            return new Response(
+                JSON.stringify({
                     success: false,
-                    result: `Error creating account: ${error}`,
-                },
-            };
+                    error: `${error}`,
+                }),
+                { status: 500 }
+            );
         }
     }
 }

@@ -12,12 +12,16 @@
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.4.5",
     "@cloudflare/workers-types": "^4.20240815.0",
-    "typescript": "^5.5.2",
+    "@types/bcrypt": "^5.0.2",
+    "@types/bcryptjs": "^2.4.6",
+    "typescript": "^5.5.4",
     "vitest": "1.5.0",
     "wrangler": "^3.60.3"
   },
   "dependencies": {
     "@cloudflare/itty-router-openapi": "^1.1.1",
+    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "chanfana": "^2.0.2",
     "hono": "^4.5.6",
     "itty-router": "^5.0.18"
