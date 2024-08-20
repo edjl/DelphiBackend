@@ -1,8 +1,6 @@
 import { fromHono } from "chanfana";
 import { Hono } from "hono";
-import { CreateAccount } from "./endpoints/createAccount";
-import { Login } from "./endpoints/login";
-import { GetProfileDetails } from "./endpoints/getProfileDetails";
+import { ListCategories } from "./endpoints/listCategories";
 
 // Start a Hono app
 const app = new Hono();
@@ -13,9 +11,7 @@ const openapi = fromHono(app, {
 });
 
 // Register OpenAPI endpoints with correct methods and paths
-openapi.post("/api/CreateAccount", CreateAccount);
-openapi.post("/api/Login", Login);
-openapi.get("/api/GetProfileDetails/:id", GetProfileDetails);
+openapi.get("/api/ListCategories", ListCategories);
 
 // Export the Hono app
 export default app;
