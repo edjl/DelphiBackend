@@ -1,5 +1,13 @@
 
+DROP TABLE IF EXISTS outcomes;
+DROP TABLE IF EXISTS shares;
+DROP TABLE IF EXISTS options;
+DROP TABLE IF EXISTS events;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS category;
+DROP TABLE IF EXISTS images;
+
+
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY, 
     username TEXT UNIQUE NOT NULL, 
@@ -15,7 +23,6 @@ CREATE TABLE IF NOT EXISTS users (
     profit_multiplier INTEGER NOT NULL DEFAULT 1
 );
 
-DROP TABLE IF EXISTS events;
 CREATE TABLE IF NOT EXISTS events (
     id INTEGER PRIMARY KEY, 
     name TEXT UNIQUE NOT NULL, 
@@ -30,7 +37,6 @@ CREATE TABLE IF NOT EXISTS events (
     FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE RESTRICT
 );
 
-DROP TABLE IF EXISTS options;
 CREATE TABLE IF NOT EXISTS options (
     event_id INTEGER NOT NULL, 
     option_id INTEGER NOT NULL, 
@@ -42,24 +48,21 @@ CREATE TABLE IF NOT EXISTS options (
     negative_price INTEGER NOT NULL, 
     image_id INTEGER, 
     PRIMARY KEY (event_id, option_id), 
-    FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE CASCADE,
+    FOREIGN KEY (event_id) REFERENCES events(id) ON DELETE RESTRICT,
     FOREIGN KEY (image_id) REFERENCES images(id) ON DELETE RESTRICT
 );
 
-DROP TABLE IF EXISTS images;
 CREATE TABLE IF NOT EXISTS images (
     id INTEGER PRIMARY KEY, 
     link TEXT NOT NULL
 );
 
-DROP TABLE IF EXISTS category;
 CREATE TABLE IF NOT EXISTS category (
     id INTEGER PRIMARY KEY, 
     grouping INTEGER NOT NULL DEFAULT 0, 
     name TEXT UNIQUE NOT NULL
 );
 
-DROP TABLE IF EXISTS shares;
 CREATE TABLE IF NOT EXISTS shares (
     event_id INTEGER NOT NULL, 
     option_id INTEGER NOT NULL, 
@@ -73,17 +76,18 @@ CREATE TABLE IF NOT EXISTS shares (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE RESTRICT
 );
 
-DROP TABLE IF EXISTS outcomes;
 CREATE TABLE IF NOT EXISTS outcomes (
     bet_title TEXT NOT NULL, 
     user_id INTEGER NOT NULL, 
-    purchase_date INTEGER NOT NULL,
+    purchase_date INTEGER NOT NULL, 
+    category_id INTEGER NOT NULL,
     profit INTEGER NOT NULL, 
     multiplier INTEGER NOT NULL, 
     sell_date INTEGER NOT NULL, 
     image_id INTEGER, 
     PRIMARY KEY (bet_title, user_id, purchase_date), 
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE RESTRICT
 );
 
 
@@ -93,7 +97,7 @@ CREATE TABLE IF NOT EXISTS outcomes (
 -- Test Values
 
 INSERT INTO users (id, username, email, password, admin, balance, bankruptcy_count, bets_count, total_credits_bet, total_credits_won) 
-VALUES (0, 'test_username', 'test.username@email.com', 'pass123', 1, 69420, 2, 10, 5000, 14400);
+VALUES (0, 'test_username', 'test.username@email.com', '$2a$10$EGmzezNxXwFzBzuEJDxrGesX9v0/Js3SgzYmkEyWPvJ04PkU7Kjri', 1, 69420, 2, 10, 5000, 14400); -- pass123
 
 INSERT INTO category (id, grouping, name) 
 VALUES (0, 0, 'Imaginary'), 
@@ -113,5 +117,5 @@ VALUES
     (0, 2, 0, 20240818, 100, 50),
     (0, 1, 0, 20240816, -150, 85);
 
-INSERT INTO outcomes (bet_title, user_id, purchase_date, profit, multiplier, sell_date) 
-VALUES ('Credits Sinkhole: Option 1', 0, 20240816, 5400, 280, 20240818);
+INSERT INTO outcomes (bet_title, user_id, purchase_date, category_id, profit, multiplier, sell_date) 
+VALUES ('Credits Sinkhole: Option 1', 0, 20240816, 0, 5400, 280, 20240818);
