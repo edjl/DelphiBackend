@@ -33,6 +33,9 @@ export class GetProfileDetails extends OpenAPIRoute {
                         balance: z.number(),
                         bankruptcy_count: z.number(),
                         bets_count: z.number(),
+                        total_bets: z.number(),
+                        curr_bets: z.number(),
+                        total_credits_playing: z.number(),
                         total_credits_bet: z.number(),
                         total_credits_won: z.number(),
                         premium_account: z.number(),
@@ -64,7 +67,8 @@ export class GetProfileDetails extends OpenAPIRoute {
 
         // Query to get user details
         const getUserDetailsQuery = `
-            SELECT username, admin, balance, bankruptcy_count, bets_count, total_credits_bet, 
+            SELECT username, admin, balance, bankruptcy_count, total_bets, 
+            curr_bets, total_credits_playing, total_credits_bet, 
             total_credits_won, premium_account, profit_multiplier
             FROM users
             WHERE id = ?
@@ -83,7 +87,8 @@ export class GetProfileDetails extends OpenAPIRoute {
                 );
             }
 
-            const { username, admin, balance, bankruptcy_count, bets_count, total_credits_bet, 
+            const { username, admin, balance, bankruptcy_count, total_bets, 
+                curr_bets, total_credits_playing, total_credits_bet, 
                 total_credits_won, premium_account, profit_multiplier } = userRecord;
 
             return new Response(
@@ -94,7 +99,9 @@ export class GetProfileDetails extends OpenAPIRoute {
                         admin: admin,
                         balance: balance,
                         bankruptcy_count: bankruptcy_count,
-                        bets_count: bets_count,
+                        total_bets: total_bets,
+                        curr_bets: curr_bets,
+                        total_credits_playing: total_credits_playing,
                         total_credits_bet: total_credits_bet,
                         total_credits_won: total_credits_won,
                         premium_account: premium_account,

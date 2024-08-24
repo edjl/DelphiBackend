@@ -1,5 +1,6 @@
 import { OpenAPIRoute } from "chanfana";
 import { z } from "zod";
+import { getDateTimeAsString } from "../dateUtils";
 
 interface RouteContext {
     env: {
@@ -18,14 +19,13 @@ interface RouteContext {
 export class BuyShares extends OpenAPIRoute {
 
     schema = {
-        tags: ["buy-shares"],
+        tags: ["shares"],
         summary: "User buys shares",
         request: {
             query: z.object({
                 user_id: z.number(),
                 event_name: z.string(),
                 option_name: z.string(),
-                positive_shares: z.boolean(),
                 share_count: z.number(),
             }),
         },
@@ -117,7 +117,7 @@ export class BuyShares extends OpenAPIRoute {
                 { status: 400 }
             );
         }
-        const { option_id: option_id, price: price, } = optionExistsResult;
+        const { option_id: option_id, price: price, } = optionExistsResult as {option_id: number, price: number};
         
         // Validate share count !== 0
         if (share_count === 0) {
@@ -144,12 +144,16 @@ export class BuyShares extends OpenAPIRoute {
 
 
         const createSharesQuery = `
-            INSERT INTO shares (event_id, option_id, user_id, purchase_date, shares, price)
+            INSERT INTO shares (event_id, option_id, user_id, purchase_date_time, shares, price)
             VALUES (?, ?, ?, ?, ?, ?)
         ;`;
-        const updateUserBalanceQuery = `
+        const updateUserQuery = `
             UPDATE users
-            SET balance = ?
+            SET balance = ?,
+            total_bets = total_bets + 1, 
+            curr_bets = curr_bets + 1,
+            total_credits_playing = total_credits_playing + ?, 
+            total_credits_bet = total_credits_bet + ?
             WHERE id = ?
         ;`;
         const updateEventsQuery = `
@@ -165,16 +169,15 @@ export class BuyShares extends OpenAPIRoute {
             WHERE event_id = ? AND option_id = ?
         ;`;
 
-        const today = new Date();
-        const date =  Number(today.toISOString().slice(0, 10).replace(/-/g, ''));
+        const dateTimeString = getDateTimeAsString();
 
         try {
             await db.prepare(createSharesQuery).bind(
-                event_id, option_id, user_id, date, 
+                event_id, option_id, user_id, dateTimeString, 
                 (positive)? share_count : -1 * share_count, price
             ).run();
-            await db.prepare(updateUserBalanceQuery).bind(
-                balance - cost, user_id
+            await db.prepare(updateUserQuery).bind(
+                balance - cost, cost, cost, user_id
             ).run();
             await db.prepare(updateEventsQuery).bind(
                 share_count, cost, event_id

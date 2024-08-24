@@ -19,7 +19,7 @@ export class ListOptions extends OpenAPIRoute {
         summary: "Get options for an event",
         request: {
             query: z.object({
-                event_name: z.string().optional(),
+                event_name: z.string(),
             }),
         },
         responses: {

@@ -20,8 +20,8 @@ export class ListUserOptions extends OpenAPIRoute {
         summary: "Get user options for an event",
         request: {
             query: z.object({
-                user_id: z.number().optional(),
-                event_name: z.string().optional(),
+                user_id: z.number(),
+                event_name: z.string(),
             }),
         },
         responses: {
@@ -37,7 +37,7 @@ export class ListUserOptions extends OpenAPIRoute {
                         positive_price: z.number(),
                         negative_price: z.number(),
                         image_link: z.string(),
-                        user_bought: z.boolean(),
+                        user_bought: z.number(), // 0 = No, 1,2 = Yes
                     })),
                 })
             },
@@ -94,15 +94,16 @@ export class ListUserOptions extends OpenAPIRoute {
         const getEventsQuery = `
             SELECT o.title AS title, o.positive_shares AS positive_shares, o.negative_shares AS negative_shares, o.market_cap AS market_cap,
                 o.positive_price AS positive_price, o.negative_price AS negative_price, i.link AS image_link, 
-                CASE 
-                    WHEN EXISTS (
-                        SELECT 1 
+                COALESCE(
+                    (
+                        SELECT SUM(s.shares) 
                         FROM shares s 
-                        WHERE s.event_id = ? AND s.option_id = o.option_id AND s.user_id = ?
-                        LIMIT 1
-                    ) THEN 1 
-                    ELSE 0 
-                END AS user_bought
+                        WHERE s.event_id = ? 
+                            AND s.option_id = o.option_id 
+                            AND s.user_id = ?
+                    ), 
+                    0
+                ) AS user_bought
             FROM options o
                 LEFT JOIN images i on image_id = i.id
             ORDER BY o.positive_price DESC
