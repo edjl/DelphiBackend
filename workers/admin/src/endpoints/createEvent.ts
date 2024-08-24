@@ -62,7 +62,7 @@ export class CreateEvent extends OpenAPIRoute {
 		const reqBody = await this.getValidatedData<typeof this.schema>();
         const { event_name, category_name, end_date, options = [] } = reqBody.body;
 
-        // Validate that options is not empty
+        // Validate at least 2 options
         if (options.length < 2) {
             return new Response(
                 JSON.stringify({
