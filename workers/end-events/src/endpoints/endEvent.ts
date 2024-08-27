@@ -18,7 +18,7 @@ export class EndEvent extends OpenAPIRoute {
 
     schema = {
         tags: ["events"],
-        summary: "Event ended",
+        summary: "End event",
         request: {
             query: z.object({
                 event_name: z.string(),
