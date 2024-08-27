@@ -224,7 +224,7 @@ export class SellShares extends OpenAPIRoute {
                 ).run();
             }
             await db.prepare(updateUserQuery).bind(
-                balance + revenue, cost, profit, user_id
+                balance + revenue, cost, revenue, user_id
             ).run();
             await db.prepare(updateEventsQuery).bind(
                 shares_count, cost, event_id

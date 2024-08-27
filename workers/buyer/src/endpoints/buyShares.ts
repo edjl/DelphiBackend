@@ -68,8 +68,8 @@ export class BuyShares extends OpenAPIRoute {
             share_count = -1 * share_count
         }
         
-        // Validate if user exists
-        const userExistsQuery = `SELECT balance FROM users WHERE id = ?`;
+        // Validate if user exists and less than 30 bets
+        const userExistsQuery = `SELECT balance, curr_bets FROM users WHERE id = ?`;
         const userExistsResult = await db.prepare(userExistsQuery).bind(user_id).first();
         if (!userExistsResult) {
             return new Response(
@@ -80,7 +80,16 @@ export class BuyShares extends OpenAPIRoute {
                 { status: 400 }
             );
         }
-        const { balance: balance } = userExistsResult as { balance: number };
+        const { balance: balance, curr_bets: curr_bets } = userExistsResult as { balance: number, curr_bets: number };
+        if (curr_bets >= 30) {
+            return new Response(
+                JSON.stringify({
+                    success: false,
+                    error: "User already made the max 30 bets",
+                }),
+                { status: 400 }
+            );
+        }
 
         // Validate if event exists and in stage 1
         const eventExistsQuery = `SELECT id, stage FROM events WHERE name = ?`;
