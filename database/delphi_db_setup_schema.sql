@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS users (
     balance INTEGER NOT NULL DEFAULT 0, 
     bankruptcy_count INTEGER NOT NULL DEFAULT 0, 
     total_bets INTEGER NOT NULL DEFAULT 0, 
-    curr_bets INTEGER NOT NULL DEFAULT 0 CHECK(curr_bets <= 30), 
+    curr_bets INTEGER NOT NULL DEFAULT 0 CHECK(curr_bets <= 20), 
     total_credits_playing INTEGER NOT NULL DEFAULT 0, 
     total_credits_bet INTEGER NOT NULL DEFAULT 0, 
     total_credits_won INTEGER NOT NULL DEFAULT 0, 
