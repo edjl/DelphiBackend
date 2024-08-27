@@ -25,7 +25,7 @@ export class ListUserOutcomes extends OpenAPIRoute {
             query: z.object({
                 user_id: z.number(),
                 categories: z.array(z.string()).optional(), // Make categories optional
-                order_by: z.enum(['profit', 'multiplier', 'sell_date']).default('sell_date'),
+                order_by: z.enum(['profit', 'multiplier', 'sell_date_time']).default('sell_date_time'),
                 order_direction: z.enum(['asc', 'desc']).default('desc'),
                 page: z.number().min(1).default(1),
             }),
@@ -37,10 +37,10 @@ export class ListUserOutcomes extends OpenAPIRoute {
                     success: z.boolean(),
                     outcomes: z.array(z.object({
                         bet_title: z.string(),
-                        purchase_date: z.string(),
+                        purchase_date_time: z.string(),
                         profit: z.number(),
                         multiplier: z.number(),
-                        sell_date: z.string(),
+                        sell_date_time: z.string(),
                         link: z.string().nullable(),
                     })),
                 })
@@ -65,7 +65,7 @@ export class ListUserOutcomes extends OpenAPIRoute {
     async handle(c: RouteContext) {
         const db = c.env.DB as D1Database;
         const reqQuery = await this.getValidatedData<typeof this.schema>();
-        const { user_id, categories = [], order_by = 'sell_date', order_direction = 'desc', page = 1 } = reqQuery.query;
+        const { user_id, categories = [], order_by = 'sell_date_time', order_direction = 'desc', page = 1 } = reqQuery.query;
 
         // Validate if user exists
         const userExistsQuery = `SELECT 1 FROM users WHERE id = ?`;
@@ -106,7 +106,7 @@ export class ListUserOutcomes extends OpenAPIRoute {
             : '';
 
         const getOutcomesQuery = `
-            SELECT bet_title, purchase_date_time AS purchase_date, profit, multiplier, sell_date_time AS sell_date, link
+            SELECT bet_title, purchase_date_time AS purchase_date, profit, multiplier, sell_date_time AS sell_date_time, link
             FROM outcomes
             JOIN category ON outcomes.category_id = category.id
             LEFT JOIN images ON outcomes.image_id = images.id
