@@ -27,7 +27,7 @@ export class CreateAccount extends OpenAPIRoute {
                             admin: z.number().optional(),
                             balance: z.number().optional(),
                             bankruptcy_count: z.number().optional(),
-                            bets_count: z.number().optional(),
+                            total_bets: z.number().optional(),
                             total_credits_bet: z.number().optional(),
                             total_credits_won: z.number().optional(),
                             premium_account: z.number().optional(),
@@ -72,7 +72,7 @@ export class CreateAccount extends OpenAPIRoute {
             admin,
             balance,
             bankruptcy_count,
-            bets_count,
+            total_bets,
             total_credits_bet,
             total_credits_won,
             premium_account,
@@ -141,9 +141,9 @@ export class CreateAccount extends OpenAPIRoute {
             values.push(bankruptcy_count);
             placeholders.push("?");
         }
-        if (bets_count !== undefined) {
+        if (total_bets !== undefined) {
             fields.push("total_bets");
-            values.push(bets_count);
+            values.push(total_bets);
             placeholders.push("?");
         }
         if (total_credits_bet !== undefined) {
