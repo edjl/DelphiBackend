@@ -14,7 +14,7 @@ const openapi = fromHono(app, {
 
 // Register OpenAPI endpoints with correct methods and paths
 openapi.post("/api/CreateAccount", CreateAccount);
-openapi.get("/api/Login", Login);
+openapi.post("/api/Login", Login);
 openapi.get("/api/GetProfileDetails/:id", GetProfileDetails);
 
 // Export the Hono app
