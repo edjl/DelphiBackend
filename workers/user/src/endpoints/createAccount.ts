@@ -142,7 +142,7 @@ export class CreateAccount extends OpenAPIRoute {
             placeholders.push("?");
         }
         if (bets_count !== undefined) {
-            fields.push("bets_count");
+            fields.push("total_bets");
             values.push(bets_count);
             placeholders.push("?");
         }
