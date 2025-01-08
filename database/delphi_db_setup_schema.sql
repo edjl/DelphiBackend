@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS users (
     total_credits_bet INTEGER NOT NULL DEFAULT 0, 
     total_credits_won INTEGER NOT NULL DEFAULT 0, 
     premium_account INTEGER NOT NULL DEFAULT 0 CHECK(premium_account IN (0, 1)), 
-    profit_multiplier INTEGER NOT NULL DEFAULT 1
+    profit_multiplier INTEGER NOT NULL DEFAULT 100
 );
 
 CREATE TABLE IF NOT EXISTS events (
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS outcomes (
 -- Test Values
 
 INSERT INTO users (id, username, email, password, admin, balance, bankruptcy_count, total_bets, curr_bets, total_credits_playing, total_credits_bet, total_credits_won) 
-VALUES (0, 'test_username', 'test.username@email.com', '$2a$10$EGmzezNxXwFzBzuEJDxrGesX9v0/Js3SgzYmkEyWPvJ04PkU7Kjri', 1, 69420, 2, 10, 3, 30250, 5000, 14400); -- pass123
+VALUES (0, 'test_username', 'test@email.com', '$2a$10$EGmzezNxXwFzBzuEJDxrGesX9v0/Js3SgzYmkEyWPvJ04PkU7Kjri', 1, 69420, 2, 10, 3, 30250, 5000, 14400); -- pass123
 
 INSERT INTO category (id, grouping, name) 
 VALUES (0, 0, 'Imaginary'), 
