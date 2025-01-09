@@ -12,7 +12,7 @@ export class GetExpiredEvents extends OpenAPIRoute {
 
     schema = {
         tags: ["event"],
-        summary: "Get Eepired events currently active",
+        summary: "Get Expired events currently active",
         responses: {
             "200": {
                 description: "Expired events found",
