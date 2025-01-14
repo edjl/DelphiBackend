@@ -21,7 +21,7 @@ export class ListUserEvents extends OpenAPIRoute {
 
     schema = {
         tags: ["user-events"],
-        summary: "Get events for user's home page",
+        summary: "Get events that user bought",
         request: {
             query: z.object({
                 user_id: z.number(),

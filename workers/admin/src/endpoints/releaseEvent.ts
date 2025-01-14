@@ -87,7 +87,8 @@ export class ReleaseEvent extends OpenAPIRoute {
         
         // Construct the SQL query
         const query = `
-            UPDATE SET stage = 1
+            UPDATE events
+            SET stage = 1
             WHERE id = ?
         `;
 

@@ -133,7 +133,7 @@ export class CreateEvent extends OpenAPIRoute {
                 VALUES (?, ?, ?) 
                 RETURNING id
             `;
-            const eventResult = await db.prepare(insertEventQuery).bind(event_name, category_id, end_date).first();
+            const eventResult = await db.prepare(insertEventQuery).bind(event_name, category_id, end_date + "000000").first();
             if (!eventResult) {
                 throw new Error("Failed to create event");
             }
