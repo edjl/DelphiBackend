@@ -91,7 +91,7 @@ export class ListUserOptions extends OpenAPIRoute {
         }
         const { id: event_id } = eventExistsResult;
 
-        const getEventsQuery = `
+        const getOptionsQuery = `
             SELECT o.title AS title, o.positive_shares AS positive_shares, o.negative_shares AS negative_shares, o.market_cap AS market_cap,
                 o.positive_price AS positive_price, o.negative_price AS negative_price, i.link AS image_link, 
                 COALESCE(
@@ -106,12 +106,13 @@ export class ListUserOptions extends OpenAPIRoute {
                 ) AS user_bought
             FROM options o
                 LEFT JOIN images i on image_id = i.id
+            WHERE o.event_id = ?
             ORDER BY o.positive_price DESC
         ;`;
 
 
         try {
-            const record = await db.prepare(getEventsQuery).bind(event_id, user_id).all();
+            const record = await db.prepare(getOptionsQuery).bind(event_id, user_id, event_id).all();
 
             if (!record || record.results.length === 0) {
                 return new Response(
