@@ -168,7 +168,7 @@ export class SellShares extends OpenAPIRoute {
         const cost = shares_count * prev_price;
         const revenue = shares_count * curr_price;
         const profit = revenue - cost;
-        const multiplier = Math.floor(100 * 100 * (curr_price) / prev_price); // 2 decimal places %
+        const multiplier = Math.floor(100 * (curr_price) / prev_price); // 2 decimal places %
         
 
         const createOutcomesQuery = `
