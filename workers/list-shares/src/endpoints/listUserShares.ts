@@ -42,6 +42,7 @@ export class ListUserShares extends OpenAPIRoute {
                         event_end_date: z.number(),
                         shares: z.number(),
                         price: z.number(),
+                        current_price: z.number(),
                         image_link: z.string(),
                     })),
                 })
@@ -110,6 +111,10 @@ export class ListUserShares extends OpenAPIRoute {
         const getSharesQuery = `
             SELECT e.name AS event_name, o.title AS option_name, purchase_date_time, e.end_date AS event_end_date, 
                 s.shares as shares, s.price as price, 
+                CASE 
+                    WHEN s.shares < 0 THEN o.negative_price 
+                    ELSE o.positive_price 
+                END AS current_price, 
                 i.link AS image_link
             FROM shares AS s
             LEFT JOIN events e ON s.event_id = e.id
