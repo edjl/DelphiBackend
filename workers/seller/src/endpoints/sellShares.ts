@@ -140,11 +140,11 @@ export class SellShares extends OpenAPIRoute {
             );
         }
         const { avail_shares: avail_shares, prev_price: prev_price } = sharesExistsResult as { avail_shares: number, prev_price: number };
-        if (avail_shares < shares_count) {
+        if (Math.abs(avail_shares) < shares_count || shares_count <= 0) {
             return new Response(
                 JSON.stringify({
                     success: false,
-                    error: "Trying to sell more shares than owned",
+                    error: (shares_count <= 0)? "Trying to sell negative or 0 number of shares: " + shares_count : "Trying to sell more shares than owned: ",
                 }),
                 { status: 400 }
             );
@@ -154,13 +154,12 @@ export class SellShares extends OpenAPIRoute {
         let curr_price = positive_price;
         let curr_shares = "positive_shares";
         let curr_shares_count = positive_shares;
-        if (shares_count > 0) {
+        if (avail_shares > 0) {
             bet_title += ":YES:"
         }
         else {
             bet_title += ":NO:";
             curr_price = negative_price;
-            shares_count = -1 * shares_count;
             curr_shares = "negative_shares";
             curr_shares_count = negative_shares;
         }
@@ -220,7 +219,7 @@ export class SellShares extends OpenAPIRoute {
             }
             else {
                 await db.prepare(updateSharesQuery).bind(
-                    avail_shares - shares_count, event_id, option_id, user_id, purchase_date_time
+                    (avail_shares > 0)? avail_shares - shares_count : avail_shares + shares_count, event_id, option_id, user_id, purchase_date_time
                 ).run();
             }
             await db.prepare(updateUserQuery).bind(
