@@ -16,18 +16,17 @@ interface RouteContext {
     }
 }
 
-export class ListUserShares extends OpenAPIRoute {
+export class ListUserEventShares extends OpenAPIRoute {
 
     schema = {
         tags: ["user-shares"],
-        summary: "Get user's shares",
+        summary: "Get user's shares for an event",
         request: {
             query: z.object({
                 user_id: z.number(),
-                categories: z.array(z.string()).optional(), // Make categories optional
+                event_name: z.string(), // Make categories optional
                 order_by: z.enum(['purchase_date_time', 'event_end_date', 'shares']).default('purchase_date_time'),
-                order_direction: z.enum(['asc', 'desc']).default('desc'),
-                page: z.number().min(1).default(1),
+                order_direction: z.enum(['asc', 'desc']).default('desc')
             }),
         },
         responses: {
@@ -36,7 +35,6 @@ export class ListUserShares extends OpenAPIRoute {
                 schema: z.object({
                     success: z.boolean(),
                     outcomes: z.array(z.object({
-                        event_name: z.string(),
                         option_name: z.string(),
                         purchase_date_time: z.number(),
                         event_end_date: z.number(),
@@ -67,7 +65,7 @@ export class ListUserShares extends OpenAPIRoute {
     async handle(c: RouteContext) {
         const db = c.env.DB as D1Database;
         const reqQuery = await this.getValidatedData<typeof this.schema>();
-        const { user_id, categories = [], order_by = 'purchase_date_time', order_direction = 'desc', page = 1 } = reqQuery.query;
+        const { user_id, event_name, order_by = 'purchase_date_time', order_direction = 'desc' } = reqQuery.query;
 
         // Validate if user exists
         const userExistsQuery = `SELECT 1 FROM users WHERE id = ?`;
@@ -82,52 +80,41 @@ export class ListUserShares extends OpenAPIRoute {
             );
         }
 
-        // Validate if categories exist if categories are provided
-        if (categories.length > 0) {
-            const categoriesList = categories.map(cat => `'${cat}'`).join(',');
-            const categoriesExistQuery = `SELECT COUNT(*) as count FROM category WHERE name IN (${categoriesList})`;
-            const categoriesExistResult = await db.prepare(categoriesExistQuery).all();
-            if (!categoriesExistResult || !categoriesExistResult.results || !categoriesExistResult.results[0] || categoriesExistResult.results[0].count !== categories.length) {
-                return new Response(
-                    JSON.stringify({
-                        success: false,
-                        error: "One or more categories do not exist",
-                    }),
-                    { status: 400 }
-                );
-            }
+        // Validate if event exists and retrieve event id
+        const eventExistQuery = `SELECT id FROM events WHERE name = ?`;
+        const eventExistResult = await db.prepare(eventExistQuery).bind(event_name).first();
+        if (!eventExistResult) {
+            return new Response(
+                JSON.stringify({
+                    success: false,
+                    error: "Event does not exist",
+                }),
+                { status: 400 }
+            );
         }
-
-        // Calculate offset based on page number
-        const limit = 20;
-        const offset = (page - 1) * limit;
-
-        // Adjust query based on whether categories are provided
-        const categoriesCondition = categories.length > 0 
-            ? `AND category.name IN (${ categories.map(str => `'${str}'`).join(', ') })`
-            : '';
+        const eventId = eventExistResult.id;
 
 
         const getSharesQuery = `
-            SELECT e.name AS event_name, o.title AS option_name, purchase_date_time, e.end_date AS event_end_date, 
+            SELECT o.title AS option_name, purchase_date_time, e.end_date AS event_end_date, 
                 s.shares as shares, s.price as price, 
                 CASE 
                     WHEN s.shares < 0 THEN o.negative_price 
                     ELSE o.positive_price 
                 END AS current_price, 
                 i.link AS image_link
-            FROM shares AS s
-            LEFT JOIN events e ON s.event_id = e.id
-            LEFT JOIN options o ON s.event_id = o.event_id AND s.option_id = o.option_id 
-            LEFT JOIN images i ON o.image_id = i.id
-            LEfT JOIN category ON e.category_id = category.id 
-            WHERE s.user_id = ? ${categoriesCondition}
-            ORDER BY ${order_by} ${order_direction}
-            LIMIT ? OFFSET ?
+
+            FROM events AS e
+            LEFT JOIN shares s ON s.event_id = e.id
+            LEFT JOIN options o on o.event_id = s.event_id AND o.option_id = s.option_id
+            LEFT JOIN images i on i.id = o.image_id
+            WHERE e.id = ?
+            WHERE s.user_id = ?
+            ORDER BY ${order_by}
         `;
 
         try {
-            const userRecord = await db.prepare(getSharesQuery).bind(user_id, limit, offset).all();
+            const userRecord = await db.prepare(getSharesQuery).bind(eventId, user_id).all();
 
             if (!userRecord) {
                 return new Response(
