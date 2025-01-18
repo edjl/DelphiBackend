@@ -108,8 +108,7 @@ export class ListUserEventShares extends OpenAPIRoute {
             LEFT JOIN shares s ON s.event_id = e.id
             LEFT JOIN options o on o.event_id = s.event_id AND o.option_id = s.option_id
             LEFT JOIN images i on i.id = o.image_id
-            WHERE e.id = ?
-            WHERE s.user_id = ?
+            WHERE e.id = ? AND s.user_id = ?
             ORDER BY ${order_by}
         `;
 
