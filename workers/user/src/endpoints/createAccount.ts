@@ -49,14 +49,14 @@ export class CreateAccount extends OpenAPIRoute {
                 description: "Account creation error",
                 schema: {
                     success: z.boolean(),
-                    error: z.string(),
+                    result: z.string(),
                 }
             },
             "500": {
                 description: "Internal server error",
                 schema: {
                     success: z.boolean(),
-                    error: z.string(),
+                    result: z.string(),
                 },
             },
         },
@@ -91,7 +91,7 @@ export class CreateAccount extends OpenAPIRoute {
             return new Response(
                 JSON.stringify({
                     success: false,
-                    error: "Username already exists",
+                    result: "Username already exists",
                 }),
                 { status: 400 }
             );
@@ -109,7 +109,7 @@ export class CreateAccount extends OpenAPIRoute {
             return new Response(
                 JSON.stringify({
                     success: false,
-                    error: "Email already exists",
+                    result: "Email already exists",
                 }),
                 { status: 400 }
             );
@@ -187,7 +187,7 @@ export class CreateAccount extends OpenAPIRoute {
             return new Response(
                 JSON.stringify({
                     success: false,
-                    error: `${error}`,
+                    result: `${error}`,
                 }),
                 { status: 500 }
             );
