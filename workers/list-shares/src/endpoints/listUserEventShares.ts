@@ -35,6 +35,7 @@ export class ListUserEventShares extends OpenAPIRoute {
                 schema: z.object({
                     success: z.boolean(),
                     outcomes: z.array(z.object({
+                        event_name: z.string(),
                         option_name: z.string(),
                         purchase_date_time: z.number(),
                         event_end_date: z.number(),
@@ -96,7 +97,7 @@ export class ListUserEventShares extends OpenAPIRoute {
 
 
         const getSharesQuery = `
-            SELECT o.title AS option_name, purchase_date_time, e.end_date AS event_end_date, 
+            SELECT e.name as event_name, o.title AS option_name, purchase_date_time, e.end_date AS event_end_date, 
                 s.shares as shares, s.price as price, 
                 CASE 
                     WHEN s.shares < 0 THEN o.negative_price 

@@ -21,7 +21,7 @@ export class SellShares extends OpenAPIRoute {
 
     schema = {
         tags: ["shares"],
-        summary: "User buys shares",
+        summary: "User sells shares",
         request: {
             query: z.object({
                 user_id: z.number(),
@@ -64,7 +64,7 @@ export class SellShares extends OpenAPIRoute {
         const db = c.env.DB as D1Database;
         const reqQuery = await this.getValidatedData<typeof this.schema>();
         let { user_id, event_name, option_name, purchase_date_time, shares_count } = reqQuery.query;
-        
+
         // Validate if user exists
         const userExistsQuery = `SELECT balance FROM users WHERE id = ?`;
         const userExistsResult = await db.prepare(userExistsQuery).bind(user_id).first();
@@ -101,7 +101,7 @@ export class SellShares extends OpenAPIRoute {
                 { status: 400 }
             );
         }
-        
+
         // Validate if option exists
         const optionExistsQuery = `SELECT option_id, positive_shares, negative_shares, positive_price, negative_price, image_id 
             FROM options 
@@ -116,15 +116,15 @@ export class SellShares extends OpenAPIRoute {
                 { status: 400 }
             );
         }
-        const { 
-            option_id: option_id, positive_shares: positive_shares, negative_shares: negative_shares, 
-            positive_price: positive_price, negative_price: negative_price, image_id: image_id 
-        } = 
-        optionExistsResult as { 
-            option_id: number, positive_shares: number, negative_shares: number, 
-            positive_price: number, negative_price: number, image_id: number 
-        };
-        
+        const {
+            option_id: option_id, positive_shares: positive_shares, negative_shares: negative_shares,
+            positive_price: positive_price, negative_price: negative_price, image_id: image_id
+        } =
+            optionExistsResult as {
+                option_id: number, positive_shares: number, negative_shares: number,
+                positive_price: number, negative_price: number, image_id: number
+            };
+
         // Validate if shares exists
         const sharesExistsQuery = `SELECT shares AS avail_shares, price AS prev_price 
             FROM shares 
@@ -144,7 +144,7 @@ export class SellShares extends OpenAPIRoute {
             return new Response(
                 JSON.stringify({
                     success: false,
-                    error: (shares_count <= 0)? "Trying to sell negative or 0 number of shares: " + shares_count : "Trying to sell more shares than owned: ",
+                    error: (shares_count <= 0) ? "Trying to sell negative or 0 number of shares: " + shares_count : "Trying to sell more shares than owned: ",
                 }),
                 { status: 400 }
             );
@@ -168,7 +168,7 @@ export class SellShares extends OpenAPIRoute {
         const revenue = shares_count * curr_price;
         const profit = revenue - cost;
         const multiplier = Math.floor(100 * (curr_price) / prev_price); // 2 decimal places %
-        
+
 
         const createOutcomesQuery = `
             INSERT INTO outcomes (bet_title, user_id, purchase_date_time, category_id, profit, multiplier, sell_date_time, image_id)
@@ -183,7 +183,7 @@ export class SellShares extends OpenAPIRoute {
             SET shares = ?
             WHERE event_id = ? AND option_id = ? AND user_id = ? AND purchase_date_time = ?
         ;`;
-        const decrementCurrBets = (avail_shares === shares_count)? "curr_bets = curr_bets - 1, " : "";
+        const decrementCurrBets = (avail_shares === shares_count) ? "curr_bets = curr_bets - 1, " : "";
         const updateUserQuery = `
             UPDATE users
             SET balance = ?,
@@ -209,17 +209,17 @@ export class SellShares extends OpenAPIRoute {
 
         try {
             await db.prepare(createOutcomesQuery).bind(
-                bet_title, user_id, purchase_date_time, category_id, 
+                bet_title, user_id, purchase_date_time, category_id,
                 profit, multiplier, dateTimeString, image_id
             ).run();
-            if (shares_count == avail_shares) {
+            if (Math.abs(shares_count) == Math.abs(avail_shares)) {
                 await db.prepare(deleteSharesQuery).bind(
                     event_id, option_id, user_id, purchase_date_time
                 ).run();
             }
             else {
                 await db.prepare(updateSharesQuery).bind(
-                    (avail_shares > 0)? avail_shares - shares_count : avail_shares + shares_count, event_id, option_id, user_id, purchase_date_time
+                    (avail_shares > 0) ? avail_shares - shares_count : avail_shares + shares_count, event_id, option_id, user_id, purchase_date_time
                 ).run();
             }
             await db.prepare(updateUserQuery).bind(
