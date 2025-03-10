@@ -23,6 +23,7 @@ populate_table("users", "(id, username, email, password, admin, balance, bankrup
 
 populate_table("category", "(id, grouping, name)", ((0, 0, 'Imaginary'), (1, 1, 'Sports'), (2, 2, 'Politics'), (3, 3, 'Economy'), (4, 4, 'Other')))
 
+events = open('../database/events.txt', "r")
+lines = events.read().split('\n')
 
-
-populate_table("events", "(id, name, category_id, stage, shares, market_cap, end_date)")
+populate_table("events", "(id, name, category_id, stage, shares, market_cap, end_date)", lines)

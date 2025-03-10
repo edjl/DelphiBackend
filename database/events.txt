@@ -1,25 +1,25 @@
-Super Bowl 
-Olympics 400m Run
-Olympics 800m Run
-Olympics 100m Sprint
-Olympics Gymnastics
-UEFA Championship
-FIFA World Cup
-Grand Slam
-The Grand National
-Cricket World Cup
-Kentucky Derby
-Copa America
-Rugby World Cup
-Commonwealth Games
-US Presidential Election Winner
-TSX Top Performing Stocks
-Fortune 500 Top Performing Stocks
-NASDAQ Top Performing Stocks
-New York Stock Exchange Top Performing Stocks
-Canadian Prime Minister Election Results
-US Presidential Election Winning Party
-Next Country To Leave the EU
-UK Prime Minister Election Winner
-Canadian Federal Government Winning Party
-Australian Federal Election Winner
+(0, 'Super Bowl', 1, 0, 30, 17700, 20250501000000),
+(1, 'Olympics 400m Run', 1, 0, 30, 46100, 20250501000000),
+(2, 'Olympics 800m Run', 1, 0, 30, 14600, 20250501000000),
+(3, 'Olympics 100m Sprint', 1, 0, 30, 17400, 20250501000000),
+(4, 'Olympics Gymnastics', 1, 0, 30, 15600, 20250501000000),
+(5, 'UEFA Championship', 1, 0, 30, 143500, 20250501000000),
+(6, 'FIFA World Cup', 1, 0, 30, 1250, 20250501000000),
+(7, 'Grand Slam', 1, 0, 30, 10340, 20250501000000),
+(8, 'The Grand National', 1, 0, 30, 16100, 20250501000000),
+(9, 'Cricket World Cup', 1, 0, 30, 13500, 20250501000000),
+(10, 'Kentucky Derby', 1, 1, 30, 10043, 20250501000000),
+(11, 'Copa America', 1, 1, 30, 10660, 20250501000000),
+(12, 'Rugby World Cup', 1, 1, 30, 14600, 20250501000000),
+(13, 'Commonwealth Games', 1, 1, 30, 14400, 20250501000000),
+(14, 'US Presidential Election Winner', 2, 1, 30, 10890, 20250501000000),
+(15, 'TSX Top Performing Stocks', 3, 1, 30, 10640, 20250501000000),
+(16, 'Fortune 500 Top Performing Stocks', 3, 1, 30, 10560, 20250501000000),
+(17, 'NASDAQ Top Performing Stocks', 3, 1, 30, 16700, 20250501000000),
+(18, 'New York Stock Exchange Top Performing Stocks', 3, 1, 30, 13003, 20250501000000), 
+(19, 'Canadian Prime Minister Election Results', 2, 1, 30, 10540, 20250501000000),
+(20, 'US Presidential Election Winning Party', 2, 1, 30, 14500, 20250501000000),
+(21, 'Next Country To Leave the EU', 3, 2, 30, 15600, 20250501000000),
+(22, 'UK Prime Minister Election Winner', 2, 2, 30, 17500, 20250501000000),
+(23, 'Canadian Federal Government Winning Party', 2, 2, 30, 14500, 20250501000000),
+(24, 'Australian Federal Election Winner', 2, 2, 30, 103450, 20250501000000)
