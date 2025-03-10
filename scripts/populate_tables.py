@@ -20,3 +20,9 @@ for id in range(0,200):
     tuples.append(user)
 
 populate_table("users", "(id, username, email, password, admin, balance, bankruptcy_count, total_bets, curr_bets, total_credits_playing, total_credits_bet, total_credits_won)", tuples[0:199])
+
+populate_table("category", "(id, grouping, name)", ((0, 0, 'Imaginary'), (1, 1, 'Sports'), (2, 2, 'Politics'), (3, 3, 'Economy'), (4, 4, 'Other')))
+
+
+
+populate_table("events", "(id, name, category_id, stage, shares, market_cap, end_date)")
