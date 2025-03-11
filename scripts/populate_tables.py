@@ -1,29 +1,25 @@
-from execute_sql import execute
 import random
-import sqlite3
 
-# connection = sqlite3.connect("../database/delphi_db_setup_schema.sql")
-# conn = connection.cursor()
+def populate_tables():
+    file = open('../database/populate_tables.sql', 'w')
+    print("done")
+    users = open('../database/usernames.txt', "r")
+    lines = users.read().split('\n')
+    tuples = []
+    for id in range(0,200):
+        user = lines[id].replace(" ","")
+        email = user + '@gmail.com'
+        user = (id, lines[id], email, "1234", 1, random.randint(-10000,10000), random.randint(0,5), random.randint(0,5), random.randint(0,5), random.randint(0,100), random.randint(0,100), random.randint(0,100))
+        tuples.append(user)
 
-def populate_table(table_name, tuple_structure, tuples):
-    execute(f"""INSERT INTO {table_name} {tuple_structure} VALUES 
-        {tuples}""")
+    file.write(f"""INSERT INTO users (id, username, email, password, admin, balance, bankruptcy_count, total_bets, curr_bets, total_credits_playing, total_credits_bet, total_credits_won) VALUES 
+        {tuples[0:200]}""")
+
+    file.write(f"""INSERT INTO category (id, grouping, name) VALUES 
+    (0, 0, 'Imaginary'), (1, 1, 'Sports'), (2, 2, 'Politics'), (3, 3, 'Economy'), (4, 4, 'Other')""")
     
-users = open('../database/usernames.txt', "r")
-lines = users.read().split('\n')
-tuples = []
-for id in range(0,200):
-    user = lines[id].replace(" ","")
-    email = user + '@gmail.com'
-    # print(email)
-    user = (id, lines[id], email, "1234", 1, random.randint(-10000,10000), random.randint(0,5), random.randint(0,5), random.randint(0,5), random.randint(0,100), random.randint(0,100), random.randint(0,100))
-    tuples.append(user)
+    events = open('../database/events.txt', "r")
+    lines = events.read().split('\n')
 
-populate_table("users", "(id, username, email, password, admin, balance, bankruptcy_count, total_bets, curr_bets, total_credits_playing, total_credits_bet, total_credits_won)", tuples[0:199])
-
-populate_table("category", "(id, grouping, name)", ((0, 0, 'Imaginary'), (1, 1, 'Sports'), (2, 2, 'Politics'), (3, 3, 'Economy'), (4, 4, 'Other')))
-
-events = open('../database/events.txt', "r")
-lines = events.read().split('\n')
-
-populate_table("events", "(id, name, category_id, stage, shares, market_cap, end_date)", lines)
+    file.write(f"""INSERT INTO events (id, name, category_id, stage, shares, market_cap, end_date) VALUES {events}""")
+    file.close()
