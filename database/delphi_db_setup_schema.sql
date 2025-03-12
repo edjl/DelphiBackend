@@ -10,8 +10,8 @@ DROP TABLE IF EXISTS images;
 
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY, 
-    username TEXT UNIQUE NOT NULL, 
-    email TEXT UNIQUE NOT NULL, 
+    username TEXT NOT NULL, 
+    email TEXT NOT NULL, 
     password TEXT NOT NULL, 
     admin INTEGER NOT NULL DEFAULT 0 CHECK(admin IN (0, 1)), 
     balance INTEGER NOT NULL DEFAULT 1000, 
@@ -22,7 +22,8 @@ CREATE TABLE IF NOT EXISTS users (
     total_credits_bet INTEGER NOT NULL DEFAULT 0, 
     total_credits_won INTEGER NOT NULL DEFAULT 0, 
     premium_account INTEGER NOT NULL DEFAULT 0 CHECK(premium_account IN (0, 1)), 
-    profit_multiplier INTEGER NOT NULL DEFAULT 100
+    profit_multiplier INTEGER NOT NULL DEFAULT 100,
+    active INTEGER NOT NULL DEFAULT 1
 );
 
 CREATE TABLE IF NOT EXISTS events (
@@ -98,8 +99,8 @@ CREATE TABLE IF NOT EXISTS outcomes (
 
 -- Test Values
 
-INSERT INTO users (id, username, email, password, admin, balance, bankruptcy_count, total_bets, curr_bets, total_credits_playing, total_credits_bet, total_credits_won) 
-VALUES (0, 'test_username', 'test@email.com', '$2a$10$EGmzezNxXwFzBzuEJDxrGesX9v0/Js3SgzYmkEyWPvJ04PkU7Kjri', 1, 69420, 2, 10, 3, 30250, 5000, 14400); -- pass123
+INSERT INTO users (id, username, email, password, admin, balance, bankruptcy_count, total_bets, curr_bets, total_credits_playing, total_credits_bet, total_credits_won, active) 
+VALUES (0, 'Bobby', 'test@email.com', '$2a$10$EGmzezNxXwFzBzuEJDxrGesX9v0/Js3SgzYmkEyWPvJ04PkU7Kjri', 1, 69420, 2, 10, 3, 30250, 5000, 14400, 1); -- pass123
 
 INSERT INTO category (id, grouping, name) 
 VALUES (0, 0, 'Imaginary'), 
