@@ -64,7 +64,7 @@ export class CreateAccount extends OpenAPIRoute {
 
     async handle(c: RouteContext) {
         const db = c.env.DB as D1Database;
-		const reqBody = await this.getValidatedData<typeof this.schema>();
+        const reqBody = await this.getValidatedData<typeof this.schema>();
         const {
             username,
             email,
@@ -78,12 +78,12 @@ export class CreateAccount extends OpenAPIRoute {
             premium_account,
             profit_multiplier,
         } = reqBody.body;
-        
+
         // Check for existing username
         const checkQueryUsername = `
             SELECT *
             FROM users
-            WHERE username = ?
+            WHERE username = ? AND active = 1
         `;
         const checkDuplicateUsername = await db.prepare(checkQueryUsername).bind(username).first();
 
@@ -96,12 +96,12 @@ export class CreateAccount extends OpenAPIRoute {
                 { status: 400 }
             );
         }
-        
+
         // Check for existing email
         const checkQueryEmail = `
             SELECT *
             FROM users
-            WHERE email = ?
+            WHERE email = ? AND active = 1
         `;
         const checkDuplicateEmail = await db.prepare(checkQueryEmail).bind(email).first();
 

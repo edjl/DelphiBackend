@@ -64,6 +64,7 @@ export class ListLeaders extends OpenAPIRoute {
             SELECT 
                 u.username AS username, u.balance AS balance, u.total_credits_won AS totalCreditsWon
             FROM users u
+            WHERE active = 1
             ORDER BY ${order_by} ${order_direction}
             LIMIT ?
         ;`;

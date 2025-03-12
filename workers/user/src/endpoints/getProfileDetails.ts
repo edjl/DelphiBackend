@@ -71,7 +71,7 @@ export class GetProfileDetails extends OpenAPIRoute {
             curr_bets, total_credits_playing, total_credits_bet, 
             total_credits_won, premium_account, profit_multiplier
             FROM users
-            WHERE id = ?
+            WHERE id = ? AND active = 1
         `;
 
         try {
@@ -87,8 +87,8 @@ export class GetProfileDetails extends OpenAPIRoute {
                 );
             }
 
-            const { username, admin, balance, bankruptcy_count, total_bets, 
-                curr_bets, total_credits_playing, total_credits_bet, 
+            const { username, admin, balance, bankruptcy_count, total_bets,
+                curr_bets, total_credits_playing, total_credits_bet,
                 total_credits_won, premium_account, profit_multiplier } = userRecord;
 
             return new Response(

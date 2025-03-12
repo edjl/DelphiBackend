@@ -4,6 +4,7 @@ import { ChangeProfitMultiplier } from "./endpoints/changeProfitMultiplier";
 import { CreateAccount } from "./endpoints/createAccount";
 import { Login } from "./endpoints/login";
 import { GetProfileDetails } from "./endpoints/getProfileDetails";
+import { DeleteAccount } from "./endpoints/deleteAccount";
 
 // Start a Hono app
 const app = new Hono();
@@ -18,6 +19,7 @@ openapi.post("/api/ChangeProfitMultiplier", ChangeProfitMultiplier);
 openapi.post("/api/CreateAccount", CreateAccount);
 openapi.post("/api/Login", Login);
 openapi.get("/api/GetProfileDetails/:id", GetProfileDetails);
+openapi.get("/api/DeleteAccount/:id", DeleteAccount);
 
 
 // Export the Hono app

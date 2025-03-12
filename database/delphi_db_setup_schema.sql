@@ -10,8 +10,8 @@ DROP TABLE IF EXISTS images;
 
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY, 
-    username TEXT UNIQUE NOT NULL, 
-    email TEXT UNIQUE NOT NULL, 
+    username TEXT NOT NULL, 
+    email TEXT NOT NULL, 
     password TEXT NOT NULL, 
     admin INTEGER NOT NULL DEFAULT 0 CHECK(admin IN (0, 1)), 
     balance INTEGER NOT NULL DEFAULT 1000, 
@@ -22,7 +22,8 @@ CREATE TABLE IF NOT EXISTS users (
     total_credits_bet INTEGER NOT NULL DEFAULT 0, 
     total_credits_won INTEGER NOT NULL DEFAULT 0, 
     premium_account INTEGER NOT NULL DEFAULT 0 CHECK(premium_account IN (0, 1)), 
-    profit_multiplier INTEGER NOT NULL DEFAULT 100
+    profit_multiplier INTEGER NOT NULL DEFAULT 100,
+    active INTEGER NOT NULL DEFAULT 1
 );
 
 CREATE TABLE IF NOT EXISTS events (
