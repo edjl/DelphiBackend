@@ -15,11 +15,15 @@ app.use('*', async (c, next) => {
 
     // Check if the origin is a valid localhost origin (localhost or 127.0.0.1 with any port)
     const allowedOrigins = [
-        /^http:\/\/localhost:\d+$/,        // any port on localhost
-        /^http:\/\/127.0.0.1:\d+$/,        // any port on 127.0.0.1
+        "https://delphi-oracle.pages.dev",
+        /^http:\/\/localhost:\d+$/,  // Allow any port on localhost
+        /^http:\/\/127.0.0.1:\d+$/    // Allow any port on 127.0.0.1
     ];
 
-    const isAllowedOrigin = allowedOrigins.some(pattern => pattern.test(origin));
+    // Check if the request's origin is allowed
+    const isAllowedOrigin = allowedOrigins.some(pattern =>
+        typeof pattern === "string" ? pattern === origin : pattern.test(origin)
+    );
 
     if (isAllowedOrigin) {
         c.res.headers.set('Access-Control-Allow-Origin', origin); // Allow the specific origin
