@@ -99,11 +99,14 @@ CREATE TABLE IF NOT EXISTS outcomes (
 -- Test Values
 
 INSERT INTO users (id, username, email, password, admin, balance, bankruptcy_count, total_bets, curr_bets, total_credits_playing, total_credits_bet, total_credits_won) 
-VALUES (0, 'test_username', 'test@email.com', '$2a$10$EGmzezNxXwFzBzuEJDxrGesX9v0/Js3SgzYmkEyWPvJ04PkU7Kjri', 1, 69420, 2, 10, 3, 30250, 5000, 14400); -- pass123
+VALUES (0, 'Bobby', 'test@email.com', '$2a$10$EGmzezNxXwFzBzuEJDxrGesX9v0/Js3SgzYmkEyWPvJ04PkU7Kjri', 1, 69420, 2, 10, 3, 30250, 5000, 420420); -- pass123
 
 INSERT INTO category (id, grouping, name) 
 VALUES (0, 0, 'Imaginary'), 
-    (1, 1, 'NHL');
+    (1, 1, 'Sports'), 
+    (2, 2, 'Politics'), 
+    (3, 3, 'Economy'), 
+    (4, 4, 'Other');
 
 INSERT INTO events (id, name, category_id, stage, shares, market_cap, end_date) 
 VALUES (0, 'Credits Sinkhole', 0, 1, 1000, 50000, 20250501000000);

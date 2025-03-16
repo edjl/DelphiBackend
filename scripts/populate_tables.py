@@ -1,27 +1,22 @@
 import random
 
-file = open('../database/populate_tables.sql', 'w')
+users_file = open('../database/add_users.sql', 'w')
 users = open('../database/usernames.txt', "r")
 lines = users.read().split('\n')
 tuples = []
-for id in range(0,200):
+for id in range(0,100):
     user = lines[id].replace(" ","")
     email = user + '@gmail.com'
-    user = (id, lines[id], email, "1234", 1, random.randint(-10000,10000), random.randint(0,5), random.randint(0,5), random.randint(0,5), random.randint(0,100), random.randint(0,100), random.randint(0,100))
+    user = (id+1, lines[id], email, "$2a$10$EGmzezNxXwFzBzuEJDxrGesX9v0/Js3SgzYmkEyWPvJ04PkU7Kjri", 1, random.randint(10000,50000), random.randint(0,5), random.randint(0,40), random.randint(0,10), random.randint(0,10000), random.randint(60000, 200000), random.randint(10000,300000))
     tuples.append(user)
 
-file.write(f"""INSERT INTO users (id, username, email, password, admin, balance, bankruptcy_count, total_bets, curr_bets, total_credits_playing, total_credits_bet, total_credits_won) VALUES 
-    {tuples[0:200]}""")
+users_file.write(f"""INSERT INTO users (id, username, email, password, admin, balance, bankruptcy_count, total_bets, curr_bets, total_credits_playing, total_credits_bet, total_credits_won) VALUES 
+    {tuples[0:100]}""")
+users_file.close()
 
-file.write('\n\n')
+#events_file = open('../database/populate_tables.sql', 'w')
+#events = open('../database/events.txt', "r")
+#lines = events.read()
 
-file.write(f"""INSERT INTO category (id, grouping, name) VALUES 
-(0, 0, 'Imaginary'), (1, 1, 'Sports'), (2, 2, 'Politics'), (3, 3, 'Economy'), (4, 4, 'Other')""")
-
-file.write('\n\n')
-
-events = open('../database/events.txt', "r")
-lines = events.read()
-
-file.write(f"""INSERT INTO events (id, name, category_id, stage, shares, market_cap, end_date) VALUES {lines}""")
-file.close()
+#events_file.write(f"""INSERT INTO events (id, name, category_id, stage, shares, market_cap, end_date) VALUES {lines}""")
+#events_file.close()
