@@ -24,7 +24,7 @@ export class ListEvents extends OpenAPIRoute {
             query: z.object({
                 categories: z.array(z.string()).optional(),
                 order_by: z.enum(['shares', 'market_cap', 'end_date']).default('end_date'),
-                order_direction: z.enum(['asc', 'desc']).default('desc'),
+                order_direction: z.enum(['asc', 'desc']).default('asc'),
                 page: z.number().min(1).default(1),
             }),
         },
@@ -64,7 +64,7 @@ export class ListEvents extends OpenAPIRoute {
     async handle(c: RouteContext) {
         const db = c.env.DB as D1Database;
         const reqQuery = await this.getValidatedData<typeof this.schema>();
-        const { categories = [], order_by = 'end_date', order_direction = 'desc', page = 1 } = reqQuery.query;
+        const { categories = [], order_by = 'end_date', order_direction = 'asc', page = 1 } = reqQuery.query;
 
         // Validate if categories exist if categories are provided
         if (categories.length > 0) {
@@ -87,8 +87,8 @@ export class ListEvents extends OpenAPIRoute {
         const offset = (page - 1) * limit;
 
         // Adjust query based on whether categories are provided
-        const categoriesCondition = categories.length > 0 
-            ? `AND category.name IN (${ categories.map(str => `'${str}'`).join(', ') })`
+        const categoriesCondition = categories.length > 0
+            ? `AND category.name IN (${categories.map(str => `'${str}'`).join(', ')})`
             : '';
 
         const getEventsQuery = `

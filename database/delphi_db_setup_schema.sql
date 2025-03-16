@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS outcomes (
 
 -- Test Values
 INSERT INTO users (id, username, email, password, admin, balance, bankruptcy_count, total_bets, curr_bets, total_credits_playing, total_credits_bet, total_credits_won, active) 
-VALUES (0, 'Bobby', 'test@email.com', '$2a$10$EGmzezNxXwFzBzuEJDxrGesX9v0/Js3SgzYmkEyWPvJ04PkU7Kjri', 1, 69420, 2, 10, 3, 30250, 5000, 420420, 1); -- pass123
+VALUES (0, 'Bobby', 'test@email.com', '$2a$10$EGmzezNxXwFzBzuEJDxrGesX9v0/Js3SgzYmkEyWPvJ04PkU7Kjri', 1, 169420, 2, 10, 3, 30250, 5000, 420420, 1); -- pass123
 
 INSERT INTO category (id, grouping, name) 
 VALUES (0, 0, 'Imaginary'), 
@@ -111,11 +111,14 @@ VALUES (0, 0, 'Imaginary'),
 INSERT INTO events (id, name, category_id, stage, shares, market_cap, end_date) 
 VALUES (0, 'Credits Sinkhole', 0, 1, 1000, 50000, 20250501000000);
 
-INSERT INTO options (event_id, option_id, title, positive_shares, negative_shares, market_cap, positive_price, negative_price) 
+INSERT INTO images (id, link) VALUES
+(0, 'https://i.imgur.com/uOIkE64.jpg');
+
+INSERT INTO options (event_id, option_id, title, positive_shares, negative_shares, market_cap, positive_price, negative_price, image_id) 
 VALUES 
-    (0, 1, 'Option 1', 100, 200, 15000, 24, 77), 
-    (0, 2, 'Option 2', 400, 100, 25000, 51, 51), 
-    (0, 3, 'Option 3', 100, 100, 10000, 27, 74); 
+    (0, 1, 'Option 1', 100, 200, 15000, 24, 77, 0), 
+    (0, 2, 'Option 2', 400, 100, 25000, 51, 51, 0), 
+    (0, 3, 'Option 3', 100, 100, 10000, 27, 74, 0); 
 
 INSERT INTO shares (event_id, option_id, user_id, purchase_date_time, shares, price) 
 VALUES 
