@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS outcomes (
 
 
 -- Test Values
-INSERT INTO users (id, username, email, password, admin, balance, bankruptcy_count, total_bets, curr_bets, total_credits_playing, total_credits_bet, total_credits_won) 
+INSERT INTO users (id, username, email, password, admin, balance, bankruptcy_count, total_bets, curr_bets, total_credits_playing, total_credits_bet, total_credits_won, active) 
 VALUES (0, 'Bobby', 'test@email.com', '$2a$10$EGmzezNxXwFzBzuEJDxrGesX9v0/Js3SgzYmkEyWPvJ04PkU7Kjri', 1, 69420, 2, 10, 3, 30250, 5000, 420420, 1); -- pass123
 
 INSERT INTO category (id, grouping, name) 
