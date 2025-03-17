@@ -27,7 +27,7 @@ export class ListUserEvents extends OpenAPIRoute {
                 user_id: z.number(),
                 categories: z.array(z.string()).optional(),
                 order_by: z.enum(['shares', 'market_cap', 'end_date']).default('end_date'),
-                order_direction: z.enum(['asc', 'desc']).default('desc'),
+                order_direction: z.enum(['asc', 'desc']).default('asc'),
                 page: z.number().min(1).default(1),
                 user_only: z.boolean().default(false),
             }),
@@ -69,7 +69,9 @@ export class ListUserEvents extends OpenAPIRoute {
     async handle(c: RouteContext) {
         const db = c.env.DB as D1Database;
         const reqQuery = await this.getValidatedData<typeof this.schema>();
-        const { user_id, categories = [], order_by = 'end_date', order_direction = 'desc', page = 1, user_only = false } = reqQuery.query;
+        let { user_id, categories = [], order_by = 'end_date', order_direction = 'desc', page = 1, user_only = false } = reqQuery.query;
+        order_by = 'end_date';
+        order_direction = 'asc';
 
         // Validate if user exists
         const userExistsQuery = `SELECT 1 FROM users WHERE id = ?`;
@@ -101,12 +103,12 @@ export class ListUserEvents extends OpenAPIRoute {
         }
 
         // Calculate offset based on page number
-        const limit = 20;
+        const limit = 10;
         const offset = (page - 1) * limit;
 
         // Adjust query based on whether categories are provided
-        const categoriesCondition = categories.length > 0 
-            ? `AND category.name IN (${ categories.map(str => `'${str}'`).join(', ') })`
+        const categoriesCondition = categories.length > 0
+            ? `AND category.name IN (${categories.map(str => `'${str}'`).join(', ')})`
             : '';
 
         // Adjust query based on only showing events the user bought
