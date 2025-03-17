@@ -57,12 +57,12 @@ export class Login extends OpenAPIRoute {
         const db = c.env.DB as D1Database;
         const reqBody = await this.getValidatedData<typeof this.schema>();
         const { email, password } = reqBody.body;
-        
+
         // Query to get user ID and salted password
         const getPasswordQuery = `
             SELECT id, password as saltedPassword
             FROM users
-            WHERE email = ?
+            WHERE email = ? AND active = 1
         `;
 
         try {

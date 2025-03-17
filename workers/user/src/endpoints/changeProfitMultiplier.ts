@@ -53,7 +53,7 @@ export class ChangeProfitMultiplier extends OpenAPIRoute {
 
     async handle(c: RouteContext) {
         const db = c.env.DB as D1Database;
-		const reqBody = await this.getValidatedData<typeof this.schema>();
+        const reqBody = await this.getValidatedData<typeof this.schema>();
         const {
             id,
             profit_multiplier,
