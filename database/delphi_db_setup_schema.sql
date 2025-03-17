@@ -109,16 +109,16 @@ VALUES (0, 0, 'Imaginary'),
     (4, 4, 'Other');
 
 INSERT INTO events (id, name, category_id, stage, shares, market_cap, end_date) 
-VALUES (0, 'Credits Sinkhole', 0, 1, 1000, 50000, 20250501000000);
+VALUES (0, 'Credits Sinkhole', 0, 1, 1000, 50000, 20991231000000);
 
 INSERT INTO images (id, link) VALUES
 (0, 'https://i.imgur.com/uOIkE64.jpg');
 
 INSERT INTO options (event_id, option_id, title, positive_shares, negative_shares, market_cap, positive_price, negative_price, image_id) 
 VALUES 
-    (0, 1, 'Option 1', 100, 200, 15000, 24, 77, 0), 
-    (0, 2, 'Option 2', 400, 100, 25000, 51, 51, 0), 
-    (0, 3, 'Option 3', 100, 100, 10000, 27, 74, 0); 
+    (0, 1, 'Sinkhole 1', 100, 200, 15000, 24, 77, 0), 
+    (0, 2, 'Sinkhole 2', 400, 100, 25000, 51, 51, 0), 
+    (0, 3, 'Sinkhole 3', 100, 100, 10000, 27, 74, 0); 
 
 INSERT INTO shares (event_id, option_id, user_id, purchase_date_time, shares, price) 
 VALUES 
