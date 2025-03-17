@@ -165,7 +165,7 @@ VALUES
     (10, 7, 'Colorado Avalanche', 11000, 0, 165000, 15, 86, 7);
 
 INSERT INTO events (id, name, category_id, stage, shares, market_cap, end_date) VALUES
-    (11, '2026 Marner at Leafs', 1, 1, 84000, 1260000, 20250501000000);
+    (11, '2026 Marner at Leafs', 1, 1, 84000, 1260000, 20251031000000);
 INSERT INTO options (event_id, option_id, title, positive_shares, negative_shares, market_cap, positive_price, negative_price, image_id) 
 VALUES 
     (11, 1, 'Toronto Maple Leafs', 700, 0, 35700, 51, 51, 18), 
