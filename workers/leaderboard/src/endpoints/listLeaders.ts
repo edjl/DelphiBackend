@@ -57,7 +57,7 @@ export class ListLeaders extends OpenAPIRoute {
         const db = c.env.DB as D1Database;
         const reqQuery = await this.getValidatedData<typeof this.schema>();
         const { order_by = 'balance', order_direction = 'desc' } = reqQuery.query;
-        const limit = 100;
+        const limit = 25;
 
 
         const getLeadersQuery = `
