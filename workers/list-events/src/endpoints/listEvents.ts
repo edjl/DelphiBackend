@@ -25,6 +25,7 @@ export class ListEvents extends OpenAPIRoute {
                 categories: z.array(z.string()).optional(),
                 order_by: z.enum(['shares', 'market_cap', 'end_date']).default('end_date'),
                 order_direction: z.enum(['asc', 'desc']).default('asc'),
+                order_direction: z.enum(['asc', 'desc']).default('asc'),
                 page: z.number().min(1).default(1),
             }),
         },

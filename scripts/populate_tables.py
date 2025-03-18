@@ -1,27 +1,37 @@
 import random
 
-file = open('../database/populate_tables.sql', 'w')
+# Open files
+users_file = open('../database/add_users.sql', 'w')
 users = open('../database/usernames.txt', "r")
 lines = users.read().split('\n')
 tuples = []
-for id in range(0,200):
-    user = lines[id].replace(" ","")
-    email = user + '@gmail.com'
-    user = (id, lines[id], email, "1234", 1, random.randint(-10000,10000), random.randint(0,5), random.randint(0,5), random.randint(0,5), random.randint(0,100), random.randint(0,100), random.randint(0,100))
-    tuples.append(user)
 
-file.write(f"""INSERT INTO users (id, username, email, password, admin, balance, bankruptcy_count, total_bets, curr_bets, total_credits_playing, total_credits_bet, total_credits_won) VALUES 
-    {tuples[0:200]}""")
+for id in range(0, 100):
+    user = lines[id].strip()
+    email = f"{user}@gmail.com"
 
-file.write('\n\n')
+    total_credits_won = random.randint(10000, 300000)  
+    balance = int(total_credits_won * random.uniform(0.1, 0.5))  
 
-file.write(f"""INSERT INTO category (id, grouping, name) VALUES 
-(0, 0, 'Imaginary'), (1, 1, 'Sports'), (2, 2, 'Politics'), (3, 3, 'Economy'), (4, 4, 'Other')""")
+    # Properly format SQL values (wrap strings in single quotes)
+    user_tuple = f"({id + 1}, '{user}', '{email}', '$2a$10$EGmzezNxXwFzBzuEJDxrGesX9v0/Js3SgzYmkEyWPvJ04PkU7Kjri', 1, {balance}, {random.randint(0, 5)}, {random.randint(0, 40)}, {random.randint(0, 10)}, {random.randint(0, 10000)}, {random.randint(60000, 200000)}, {total_credits_won})"
+    
+    tuples.append(user_tuple)
 
-file.write('\n\n')
+# Convert list of tuples to a properly formatted SQL string
+values_str = ",\n    ".join(tuples)
 
-events = open('../database/events.txt', "r")
-lines = events.read()
+# Write to file
+users_file.write(f"""INSERT INTO users (id, username, email, password, admin, balance, bankruptcy_count, total_bets, curr_bets, total_credits_playing, total_credits_bet, total_credits_won) VALUES 
+    {values_str};""")
 
-file.write(f"""INSERT INTO events (id, name, category_id, stage, shares, market_cap, end_date) VALUES {lines}""")
-file.close()
+# Close files
+users_file.close()
+
+
+#events_file = open('../database/populate_tables.sql', 'w')
+#events = open('../database/events.txt', "r")
+#lines = events.read()
+
+#events_file.write(f"""INSERT INTO events (id, name, category_id, stage, shares, market_cap, end_date) VALUES {lines}""")
+#events_file.close()
