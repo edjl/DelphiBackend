@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS users (
     email TEXT NOT NULL, 
     password TEXT NOT NULL, 
     admin INTEGER NOT NULL DEFAULT 0 CHECK(admin IN (0, 1)), 
-    balance INTEGER NOT NULL DEFAULT 1000, 
+    balance INTEGER NOT NULL DEFAULT 5000, 
     bankruptcy_count INTEGER NOT NULL DEFAULT 0, 
     total_bets INTEGER NOT NULL DEFAULT 0, 
     curr_bets INTEGER NOT NULL DEFAULT 0 CHECK(curr_bets <= 20), 
