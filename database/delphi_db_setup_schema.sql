@@ -112,7 +112,8 @@ INSERT INTO events (id, name, category_id, stage, shares, market_cap, end_date)
 VALUES (0, 'Credits Sinkhole', 0, 1, 1000, 50000, 20991231000000);
 
 INSERT INTO images (id, link) VALUES
-(0, 'https://i.imgur.com/uOIkE64.jpg');
+    (0, 'https://i.imgur.com/uOIkE64.jpg'),
+    (20, 'https://i.imgur.com/ziTIhZy.png');
 
 INSERT INTO options (event_id, option_id, title, positive_shares, negative_shares, market_cap, positive_price, negative_price, image_id) 
 VALUES 

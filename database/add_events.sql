@@ -21,7 +21,6 @@ INSERT INTO images (id, link) VALUES
     (17, 'https://i.imgur.com/0PLYMpP.png'),
     (18, 'https://i.imgur.com/BBp2VgZ.png'),
     (19, 'https://i.imgur.com/PMQggKr.png'),
-    (20, 'https://i.imgur.com/ziTIhZy.png'),
     (21, 'https://i.imgur.com/1tvJwv3.png'),
     (22, 'https://i.imgur.com/lROI2Eg.png');
 
