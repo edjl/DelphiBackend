@@ -3,6 +3,45 @@
 -- stock price x # shares = market cap
 -- individual market cap summed up = overall market cap
 
+INSERT INTO images (id, link) VALUES
+    -- Liberal
+    (36, 'https://imgur.com/T8DziYB'),
+    -- Conservative Party
+    (37, 'https://imgur.com/wAfBmnx'),
+    -- Bloc
+    (38, 'https://imgur.com/eDnmARs'),
+    -- NDP
+    (39, 'https://imgur.com/JtwLXfq'),
+    -- Green
+    (40, 'https://imgur.com/Up86PWB'),
+    -- Peoples
+    (41, 'https://imgur.com/0zIWQhK'),
+    -- Democrats
+    (42, 'https://imgur.com/lVgo32S'),
+    -- Republicans
+    (43, 'https://imgur.com/D04KPRH'),
+    -- Higher    
+    (44, 'https://imgur.com/2Cttaza'),
+    -- Lower
+    (45, 'https://imgur.com/NDoPgvQ'),
+    -- Check
+    (46, 'https://imgur.com/LBvVzyx'),
+    -- X
+    (47, 'https://imgur.com/RRXTaC5'),
+    -- Mark C
+    (48, ''),
+    -- Pierre
+    (49, ''),
+    -- Yves
+    (50, ''),
+    -- Jagmeet
+    (51, ''),
+    -- Elizabeth
+    (52, ''),
+    -- Maxime
+    (53, '');
+
+
 -- E1
 INSERT INTO events (id, name, category_id, stage, shares, market_cap, end_date) VALUES
     (15, 'June 2025 Canadian Unemployment Rate', 3, 1, 12000, 192000, 20250630000000);
@@ -233,3 +272,4 @@ VALUES
     (32, 4, 'Green Party', 800, 0, 38000, 26, 68, __),
     (32, 5, 'Peoples Party', 420, 0, 15000, 26, 68, __),
     (32, 6, 'Other', 750, 0, 23160, 26, 68, __);
+
