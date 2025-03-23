@@ -5,43 +5,31 @@
 
 INSERT INTO images (id, link) VALUES
     -- Liberal
-    (136, 'https://imgur.com/T8DziYB'),
+    (136, 'https://i.imgur.com/l74DJt7.png'),
     -- Conservative Party
-    (137, 'https://imgur.com/wAfBmnx'),
+    (137, 'https://i.imgur.com/feLdpOc.jpg'),
     -- Bloc
-    (138, 'https://imgur.com/eDnmARs'),
+    (138, 'https://i.imgur.com/u22uo7Z.png'),
     -- NDP
-    (139, 'https://imgur.com/JtwLXfq'),
+    (139, 'https://i.imgur.com/cFK2Uni.jpg'),
     -- Green
-    (140, 'https://imgur.com/Up86PWB'),
+    (140, 'https://i.imgur.com/rsTb0w3.jpg'),
     -- Peoples
-    (141, 'https://imgur.com/0zIWQhK'),
+    (141, 'https://i.imgur.com/bAaNDR1.png'),
     -- Democrats
-    (142, 'https://imgur.com/lVgo32S'),
+    (142, 'https://i.imgur.com/lVgo32S.png'),
     -- Republicans
-    (143, 'https://imgur.com/D04KPRH'),
+    (143, 'https://i.imgur.com/D04KPRH.png'),
     -- Higher    
-    (144, 'https://imgur.com/2Cttaza'),
+    (144, 'https://i.imgur.com/2Cttaza.png'),
     -- Lower
-    (145, 'https://imgur.com/NDoPgvQ'),
+    (145, 'https://i.imgur.com/NDoPgvQ.png'),
     -- Check
-    (146, 'https://imgur.com/LBvVzyx'),
+    (146, 'https://i.imgur.com/LBvVzyx.png'),
     -- X
-    (147, 'https://imgur.com/RRXTaC5'),
-    -- Mark C
-    (148, 'https://imgur.com/U0gkvXU'),
-    -- Pierre
-    (149, 'https://imgur.com/8c08M48'),
-    -- Yves
-    (150, 'https://imgur.com/mT5wHbp'),
-    -- Jagmeet
-    (151, 'https://imgur.com/gj7Kkup'),
-    -- Elizabeth
-    (152, 'https://imgur.com/zFE34ft'),
-    -- Maxime
-    (153, 'https://imgur.com/3h8IWl1'),
+    (147, 'https://i.imgur.com/RRXTaC5.png'),
     -- Percent sign
-    (154, 'https://imgur.com/wYnagjr');
+    (154, 'https://i.imgur.com/wYnagjr.png');
 
 
 -- E1
@@ -100,8 +88,8 @@ INSERT INTO events (id, name, category_id, stage, shares, market_cap, end_date) 
 
 INSERT INTO options (event_id, option_id, title, positive_shares, negative_shares, market_cap, positive_price, negative_price, image_id) 
 VALUES 
-    (19, 0, 'Yes By June 2025', 1200, 0, 18060, 14, 48, 146), 
-    (19, 1, 'No By June 2025', 490, 0, 5600, 14, 48, 147);
+    (19, 1, 'No By June 2025', 490, 0, 5600, 14, 48, 147), 
+    (19, 0, 'Yes By June 2025', 1200, 0, 18060, 14, 48, 146);
 
 
 -- E6
@@ -136,8 +124,8 @@ INSERT INTO events (id, name, category_id, stage, shares, market_cap, end_date) 
 
 INSERT INTO options (event_id, option_id, title, positive_shares, negative_shares, market_cap, positive_price, negative_price, image_id) 
 VALUES 
-    (22, 0, 'Democrats', 6000, 0, 180600, 33, 48, 142), 
-    (22, 1, 'Republicans', 6000, 0, 215400, 33, 48, 143),
+    (22, 0, 'Democrat', 6000, 0, 180600, 33, 48, 142), 
+    (22, 1, 'Republican', 6000, 0, 215400, 33, 48, 143),
     (22, 2, 'Other', 3000, 0, 10000, 33, 48, 20);
 
 -- P2
@@ -146,8 +134,8 @@ INSERT INTO events (id, name, category_id, stage, shares, market_cap, end_date) 
 
 INSERT INTO options (event_id, option_id, title, positive_shares, negative_shares, market_cap, positive_price, negative_price, image_id) 
 VALUES 
-    (23, 0, 'Yes by January 2029', 6000, 0, 180600, 33, 48, 146), 
-    (23, 1, 'No by January 2029', 6000, 0, 215400, 33, 48, 147);
+    (23, 1, 'No by January 2029', 6000, 0, 215400, 33, 48, 147), 
+    (23, 2, 'Yes by January 2029', 6000, 0, 180600, 33, 48, 146); 
 
 -- P3
 INSERT INTO events (id, name, category_id, stage, shares, market_cap, end_date) VALUES
