@@ -139,7 +139,7 @@ VALUES
 
 -- P3
 INSERT INTO events (id, name, category_id, stage, shares, market_cap, end_date) VALUES
-    (24, 'CAN Election Seat Plurality', 2, 1, 8660, 299160, 20251022000000);
+    (24, 'CAN Election Seat Plurality', 2, 1, 8660, 299160, 20250430000000);
 
 INSERT INTO options (event_id, option_id, title, positive_shares, negative_shares, market_cap, positive_price, negative_price, image_id) 
 VALUES 
@@ -153,7 +153,7 @@ VALUES
 
 -- P4
 INSERT INTO events (id, name, category_id, stage, shares, market_cap, end_date) VALUES
-    (25, 'CAN Election Popular Vote', 2, 1, 8660, 159160, 20251022000000);
+    (25, 'CAN Election Popular Vote', 2, 1, 8660, 159160, 20250430000000);
 
 INSERT INTO options (event_id, option_id, title, positive_shares, negative_shares, market_cap, positive_price, negative_price, image_id) 
 VALUES 
