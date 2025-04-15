@@ -109,6 +109,8 @@ export class ListUserEvents extends OpenAPIRoute {
         // Adjust query based on whether categories are provided
         const categoriesCondition = categories.length > 0
             ? `AND category.name IN (${categories.map(str => `'${str}'`).join(', ')})`
+        const categoriesCondition = categories.length > 0
+            ? `AND category.name IN (${categories.map(str => `'${str}'`).join(', ')})`
             : '';
 
         // Adjust query based on only showing events the user bought
